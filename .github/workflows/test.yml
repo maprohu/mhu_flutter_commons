@@ -15,3 +15,5 @@ jobs:
         with:
           channel: 'stable'
       - run: flutter pub get
+      - run: dart pub publish --dry-run
+      - run: dart pub publish -f
