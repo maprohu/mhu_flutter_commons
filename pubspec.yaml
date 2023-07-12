@@ -1,6 +1,7 @@
 name: mhu_flutter_commons
 description: Commons utilities used in my Flutter projects
-version: 1.0.0-dev
+version: 1.0.1
+repository: https://github.com/maprohu/mhu_flutter_commons
 
 environment:
   sdk: ^3.0.5
