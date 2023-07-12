@@ -4,4 +4,5 @@ export 'src/textfield.dart';
 export 'src/edit.dart';
 export 'src/notifier.dart';
 export 'src/dialog.dart';
+export 'src/future.dart';
 

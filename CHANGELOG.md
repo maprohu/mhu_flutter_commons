@@ -1,3 +1,7 @@
+## 1.0.3
+
+- added BusyBuilder
+
 ## 1.0.2
 
 - setting up automated publishing
