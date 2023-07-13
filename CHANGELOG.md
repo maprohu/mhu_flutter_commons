@@ -1,3 +1,7 @@
+## 1.0.4
+
+- added feature for taking automated app screenshots
+
 ## 1.0.3
 
 - added BusyBuilder
