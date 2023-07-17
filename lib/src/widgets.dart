@@ -30,3 +30,40 @@ class BusyWidget extends StatelessWidget {
     );
   }
 }
+
+extension FlutterStringX on String {
+  Text get txt => Text(this);
+}
+
+typedef ValueBuilder<T> = Widget Function(BuildContext context, T value);
+
+class WidgetWithKey extends StatelessWidget {
+  final Widget child;
+
+  WidgetWithKey(dynamic key, this.child) : super(key: ValueKey(key));
+
+  @override
+  Widget build(BuildContext context) {
+    return child;
+  }
+}
+
+extension MhuWidgetX on Widget {
+  Widget withKey(dynamic key) => WidgetWithKey(key, this);
+
+  Widget roundBorder([double radius = 8]) => ClipRRect(
+        borderRadius: BorderRadius.circular(radius),
+        child: this,
+      );
+
+  Widget overlay() => Container(
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: this,
+        ),
+      );
+}

@@ -4,40 +4,74 @@ import 'package:mhu_flutter_commons/mhu_flutter_commons.dart';
 
 final _logger = Logger();
 
-class BusyBuilder<T extends Object> extends StatelessWidget {
-  static Widget defaultBusy(BuildContext context) => const BusyWidget();
+Widget snapshotDefaultBusy(BuildContext context) => busyWidget;
 
-  static Widget defaultError(BuildContext context, Object error) {
-    _logger.e(error, error);
-    return ErrorWidget(error);
-  }
+Widget snapshotDefaultError(BuildContext context, Object error) {
+  _logger.e(error, error);
+  return ErrorWidget(error);
+}
 
-  final Future<T> future;
-  final Widget Function(BuildContext context, T value) builder;
-  final Widget Function(BuildContext context) busyBuilder;
-  final Widget Function(BuildContext context, Object error) errorBuilder;
+AsyncWidgetBuilder<T> snapshotBuilder<T>({
+  required Widget Function(BuildContext context, T value) builder,
+  Widget Function(BuildContext context) busy = snapshotDefaultBusy,
+  Widget Function(BuildContext context, Object error) error =
+      snapshotDefaultError,
+}) =>
+    (context, snapshot) {
+      if (snapshot.hasError) {
+        return error(context, snapshot.error!);
+      } else if (snapshot.hasData) {
+        return builder(context, snapshot.requireData);
+      } else {
+        return busy(context);
+      }
+    };
 
-  const BusyBuilder({
-    super.key,
-    required this.future,
-    required this.builder,
-    this.busyBuilder = defaultBusy,
-    this.errorBuilder = defaultError,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<T>(
+Widget futureBuilderNull<T>({
+  required Future<T> future,
+  required Widget Function(BuildContext context, T value) builder,
+  Widget Function(BuildContext context, Object error) error =
+      snapshotDefaultError,
+}) =>
+    futureBuilder(
       future: future,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return errorBuilder(context, snapshot.error!);
-        } else if (snapshot.hasData) {
-          return builder(context, snapshot.requireData);
-        } else {
-          return busyBuilder(context);
-        }
-      },
+      builder: builder,
+      error: error,
+      busy: (context) => nullWidget,
     );
-  }
+
+Widget futureBuilder<T>({
+  required Future<T> future,
+  required Widget Function(BuildContext context, T value) builder,
+  Widget Function(BuildContext context) busy = snapshotDefaultBusy,
+  Widget Function(BuildContext context, Object error) error =
+      snapshotDefaultError,
+}) =>
+    FutureBuilder<T>(
+      future: future,
+      builder: snapshotBuilder(
+        builder: builder,
+        busy: busy,
+        error: error,
+      ),
+    );
+
+extension MhuWidgetFutureWidgetX on Future<Widget> {
+  Widget withAwaitingWidget(Widget awaitingWidget) => futureBuilder(
+        future: this,
+        builder: (context, value) => value,
+        busy: (context) => awaitingWidget,
+      );
+
+  Widget get withBusyWidget => withAwaitingWidget(busyWidget);
+
+  Widget get withNullWidget => withAwaitingWidget(nullWidget);
+}
+
+extension TextWidgetFutureStringX on Future<String> {
+  Widget futureText([String waiting = '']) => futureBuilder(
+        future: this,
+        builder: (context, value) => value.txt,
+        busy: (context) => waiting.txt,
+      );
 }

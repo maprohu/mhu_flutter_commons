@@ -8,3 +8,6 @@ build/
 pubspec.lock
 
 *.iml
+*.freezed.dart
+*.g.dart
+
