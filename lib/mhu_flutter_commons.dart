@@ -15,3 +15,6 @@ export 'src/image.dart';
 export 'src/lifecycle.dart';
 export 'src/orientation.dart';
 export 'src/value_listenable.dart';
+export 'src/flc_edit.dart';
+export 'src/layout.dart';
+export 'src/bottom_menu.dart';

@@ -229,29 +229,3 @@ EditCallback<T> editOptionsCallback<T>({
         },
       );
     };
-// editDialogCallback(
-//   title: title,
-//   editorWidget: (initial) {
-//     final notifier = ValueNotifier<T?>(null);
-//
-//     return (
-//       widget: RxBuilder(
-//         rxVal: options,
-//         builder: (context, values) {
-//           return Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               for (final option in values)
-//                 ListTile(
-//                   title: labelBuilder(option),
-//                   selected: initial == option,
-//                   onTap: () {},
-//                 )
-//             ],
-//           );
-//         },
-//       ),
-//       listenable: notifier,
-//     );
-//   },
-// );

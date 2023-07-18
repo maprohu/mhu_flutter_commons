@@ -19,10 +19,13 @@ dependencies:
   image: any
   fast_immutable_collections: any
   isar: any
+  decimal: any
 
 #  mhu_dart_commons: ^1.0.6
   mhu_dart_commons:
     path: ../mhu_dart_commons
+  mhu_dart_model:
+    path: ../mhu_dart_model
 
 dev_dependencies:
   flutter_test:

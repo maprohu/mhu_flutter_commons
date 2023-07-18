@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mhu_dart_commons/proto/mhu_dart_commons.pb.dart';
+import 'package:mhu_dart_model/mhu_dart_model.dart';
 
 extension ModelSizeX on Size {
   CmnDimensionsMsg get toCmnDimensionMsg => CmnDimensionsMsg(
