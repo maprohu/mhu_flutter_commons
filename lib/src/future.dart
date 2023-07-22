@@ -4,22 +4,25 @@ import 'package:mhu_flutter_commons/mhu_flutter_commons.dart';
 
 final _logger = Logger();
 
+typedef SnapshotErrorHandler = Widget
+    Function(BuildContext context, Object error, [StackTrace? stackTrace]);
+
 Widget snapshotDefaultBusy(BuildContext context) => busyWidget;
 
-Widget snapshotDefaultError(BuildContext context, Object error) {
-  _logger.e(error, error);
+Widget snapshotDefaultError(BuildContext context, Object error,
+    [StackTrace? stackTrace]) {
+  _logger.e(error, error, stackTrace);
   return ErrorWidget(error);
 }
 
 AsyncWidgetBuilder<T> snapshotBuilder<T>({
   required Widget Function(BuildContext context, T value) builder,
   Widget Function(BuildContext context) busy = snapshotDefaultBusy,
-  Widget Function(BuildContext context, Object error) error =
-      snapshotDefaultError,
+  SnapshotErrorHandler error = snapshotDefaultError,
 }) =>
     (context, snapshot) {
       if (snapshot.hasError) {
-        return error(context, snapshot.error!);
+        return error(context, snapshot.error!, snapshot.stackTrace!);
       } else if (snapshot.hasData) {
         return builder(context, snapshot.requireData);
       } else {
@@ -30,8 +33,7 @@ AsyncWidgetBuilder<T> snapshotBuilder<T>({
 Widget futureBuilderNull<T>({
   required Future<T> future,
   required Widget Function(BuildContext context, T value) builder,
-  Widget Function(BuildContext context, Object error) error =
-      snapshotDefaultError,
+  SnapshotErrorHandler error = snapshotDefaultError,
 }) =>
     futureBuilder(
       future: future,
@@ -44,8 +46,7 @@ Widget futureBuilder<T>({
   required Future<T> future,
   required Widget Function(BuildContext context, T value) builder,
   Widget Function(BuildContext context) busy = snapshotDefaultBusy,
-  Widget Function(BuildContext context, Object error) error =
-      snapshotDefaultError,
+  SnapshotErrorHandler error = snapshotDefaultError,
 }) =>
     FutureBuilder<T>(
       future: future,

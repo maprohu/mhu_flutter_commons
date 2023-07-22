@@ -8,8 +8,6 @@ import 'package:mhu_dart_commons/commons.dart';
 
 import 'package:image/image.dart' as img;
 
-import 'aspect_ratio.dart';
-
 part 'image.freezed.dart';
 
 Future<ui.Image> uiImage(Uint8List imageBytes) {

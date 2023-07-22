@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 import 'package:mhu_dart_commons/commons.dart';
+import 'package:mhu_flutter_commons/src/package_info.dart';
 import 'package:mhu_flutter_commons/src/widgets.dart';
 
 import 'bottom_menu.dart';
@@ -15,7 +15,6 @@ import 'model.dart';
 
 part 'app.freezed.dart';
 
-final _logger = Logger();
 
 @freezed
 class AppConfig with _$AppConfig {
@@ -249,7 +248,7 @@ class FlcUi {
         final iconSize = iconTheme.size ?? 24;
         return SvgPicture.asset(
           'assets/icons/bottom_panel_open.svg',
-          package: 'mhu_monoflutter',
+          package: packageName,
           colorFilter: ColorFilter.mode(
             iconTheme.color ?? Colors.white,
             BlendMode.srcIn,

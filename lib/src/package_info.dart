@@ -1,0 +1,1 @@
+const packageName = 'mhu_flutter_commons';

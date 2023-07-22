@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:mhu_dart_model/mhu_dart_model.dart';
 
 extension ModelSizeX on Size {
-  CmnDimensionsMsg get toCmnDimensionMsg => CmnDimensionsMsg(
-        width: width.toInt(),
-        height: height.toInt(),
-      );
+  CmnDimensionsMsg get toCmnDimensionMsg => CmnDimensionsMsg()
+    ..width = width.toInt()
+    ..height = height.toInt();
 
   Size get portrait => width > height ? flipped : this;
+
   Size get landscape => height > width ? flipped : this;
 }
 
@@ -48,31 +48,30 @@ extension CmnColorThemeMsgX on CmnColorThemeMsg {
       );
 }
 
-final defaultCmnColorThemeMsg = CmnColorThemeMsg(
-  seedColor: Colors.blue.value,
-)..freeze();
+final defaultCmnColorThemeMsg = CmnColorThemeMsg()
+  ..seedColor = Colors.blue.value
+  ..freeze();
 
 extension CmnThemeModeEnmX on CmnThemeModeEnm {
   ThemeMode get toThemeMode => ThemeMode.values[value];
 }
 
 extension CmnOffsetX on Offset {
-  CmnPointMsg get toCmnPointMsg => CmnPointMsg(
-        x: dx.toInt(),
-        y: dy.toInt(),
-      )..freeze();
+  CmnPointMsg get toCmnPointMsg => CmnPointMsg()
+    ..x = dx.toInt()
+    ..y = dy.toInt()
+    ..freeze();
 }
 
 extension GeometryRectX on Rect {
-  CmnBoundingBoxMsg get toCmnBoundingBoxMsg => CmnBoundingBoxMsg(
-        origin: topLeft.toCmnPointMsg,
-        size: size.toCmnDimensionMsg,
-      );
+  CmnBoundingBoxMsg get toCmnBoundingBoxMsg => CmnBoundingBoxMsg()
+    ..origin = topLeft.toCmnPointMsg
+    ..size = size.toCmnDimensionMsg;
 }
 
 extension DartMathPointX<T extends num> on Point<T> {
-  CmnPointMsg get toCmnPointMsg => CmnPointMsg(
-        x: x.toInt(),
-        y: y.toInt(),
-      )..freeze();
+  CmnPointMsg get toCmnPointMsg => CmnPointMsg()
+    ..x = x.toInt()
+    ..y = y.toInt()
+    ..freeze();
 }

@@ -9,8 +9,7 @@ Widget streamBuilder<T>({
   required Widget Function(BuildContext context, T value) builder,
   T? initial,
   Widget Function(BuildContext context) busy = snapshotDefaultBusy,
-  Widget Function(BuildContext context, Object error) error =
-      snapshotDefaultError,
+  SnapshotErrorHandler error = snapshotDefaultError,
 }) =>
     StreamBuilder<T>(
       stream: stream,
@@ -27,8 +26,7 @@ extension MhuFlutterStreamX<T> on Stream<T> {
     ValueBuilder<T> builder, {
     T? initial,
     Widget Function(BuildContext context) busy = snapshotDefaultBusy,
-    Widget Function(BuildContext context, Object error) error =
-        snapshotDefaultError,
+    SnapshotErrorHandler error = snapshotDefaultError,
   }) =>
       lib.streamBuilder(
         stream: this,

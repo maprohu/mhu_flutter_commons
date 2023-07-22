@@ -80,31 +80,37 @@ Widget flcStreamWidget<T>({
   );
 }
 
-Widget flcAsyncDisposeWidget({
-  required Widget waiting,
-  required Future<Widget> Function(DspReg disposers) builder,
-}) {
-  return flcDisposeWidget(
-    builder: (disposers) {
-      final widget = builder(disposers);
-      return widget.withAwaitingWidget(waiting);
-    },
-  );
-}
-
 extension FrWigetX<T> on Fr<T> {
   Widget frWidget(Widget Function(T value) fn) {
     return flcFrr(
-          () => fn(call()),
+      () => fn(call()),
     );
   }
 
   Widget asKey(Widget Function(T key) fn) {
     return flcFrr(
-          () {
+      () {
         final key = call();
         return fn(key).withKey(key);
       },
     );
   }
 }
+
+typedef UpdateWidget = void Function(Widget widget);
+
+Widget flcUpdate(
+  Widget Function(UpdateWidget update) builder,
+) {
+  late final Fw<Widget> content;
+
+  content = fw<Widget>(
+    builder(
+      (w) => content.value = w,
+    ),
+  );
+
+  return flcFrr(content.watch);
+}
+
+Widget flcText(String Function() builder) => flcFrr(() => Text(builder()));

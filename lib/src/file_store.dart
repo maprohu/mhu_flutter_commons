@@ -23,8 +23,8 @@ class FileStoreImageProvider extends ImageProvider<FileStoreImageProvider> {
   }
 
   @override
-  ImageStreamCompleter loadBuffer(
-      FileStoreImageProvider key, DecoderBufferCallback decode) {
+  ImageStreamCompleter loadImage(
+      FileStoreImageProvider key, ImageDecoderCallback decode) {
     return OneFrameImageStreamCompleter(key.imageInfo());
   }
 
@@ -86,8 +86,8 @@ class FileLoaderImageProvider<K>
   }
 
   @override
-  ImageStreamCompleter loadBuffer(
-      FileLoaderImageProvider<K> key, DecoderBufferCallback decode) {
+  ImageStreamCompleter loadImage(
+      FileLoaderImageProvider<K> key, ImageDecoderCallback decode) {
     return OneFrameImageStreamCompleter(key.imageInfo());
   }
 
