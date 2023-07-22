@@ -32,4 +32,9 @@ sealed class PfeKey with _$PfeKey {
   const factory PfeKey.fieldTitle({
     required FieldKey fieldKey,
   }) = PKFieldTitle;
+
+  @Implements.fromString("PKIO<Mfw, dynamic>")
+  const factory PfeKey.defaultFieldValue({
+    required ConcreteFieldKey fieldKey,
+  }) = PKDefaultFieldValue;
 }

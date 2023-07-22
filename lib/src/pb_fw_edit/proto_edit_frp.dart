@@ -14,11 +14,32 @@ import '../app.dart';
 part 'proto_edit_frp.freezed.dart';
 
 part 'defaults.dart';
+
 part 'boilerplate.dart';
+
 part 'config.dart';
+
 part 'path.dart';
+
 part 'keys.dart';
+
 part 'editor.dart';
+
+part 'field/common.dart';
+
+part 'field/message.dart';
+
+part 'field/enum.dart';
+
+part 'field/bool.dart';
+
+part 'field/bytes.dart';
+
+part 'field/numeric.dart';
+
+part 'field/string.dart';
+part 'field/repeated.dart';
+part 'field/map.dart';
 
 final _logger = Logger();
 
@@ -32,16 +53,6 @@ abstract interface class ProtoFwEditor {
     required FieldMarker<M> field,
   });
 }
-
-
-
-
-
-
-
-
-
-
 
 extension ProtoFwX on Fw<GeneratedMessage> {
   Fw<F> fldCast<F>(PmFullField<GeneratedMessage, F> fld) {
@@ -92,6 +103,3 @@ O Function(Fw<GeneratedMessage> msgFw, I input) Function(
         (fldFw, input) => builder(fldFw, fld, input),
       );
 }
-
-
-

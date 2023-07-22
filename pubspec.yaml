@@ -13,8 +13,6 @@ dependency_overrides:
     path: ../mhu_dart_proto
   mhu_dart_model:
     path: ../mhu_dart_model
-  mhu_flutter_camera:
-    path: ../mhu_flutter_camera
   mhu_dart_builder:
     path: ../mhu_dart_builder
 

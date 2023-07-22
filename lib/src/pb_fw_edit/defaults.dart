@@ -22,25 +22,21 @@ class PfeDefault {
   static PFN<Mfw, Widget> fieldEditor(PKFieldEditor key) {
     final fieldKey = key.fieldKey;
 
-    final title = PKFieldTitle(
-      fieldKey: fieldKey,
-    );
-
     switch (fieldKey) {
       case ConcreteFieldKey():
-        final (
-          message: _,
-          :field,
-        ) = fieldKey.resolve();
-
         return (editor, mfw) {
-          return ListTile(
-            title: title(editor, mfw),
+          return PKConcreteFieldEditor(
+            fieldKey: fieldKey,
+          ).call(
+            editor,
+            mfw,
           );
         };
       case OneofFieldKey():
         return (editor, mfw) {
-          return PKOneofFieldEditor(fieldKey: fieldKey).call(
+          return PKOneofFieldEditor(
+            fieldKey: fieldKey,
+          ).call(
             editor,
             mfw,
           );
@@ -50,12 +46,19 @@ class PfeDefault {
 
   static PFN<Mfw, Widget> concreteFieldEditor(PKConcreteFieldEditor key) {
     final fieldKey = key.fieldKey;
-    return (editor, input) {
-      return ListTile(
-        title: PKFieldTitle(
-          fieldKey: fieldKey,
-        ).call(editor, input),
-      );
+    final access = fieldKey.calc.access;
+
+    return switch (access) {
+      NumericIntFieldAccess() => access.editor,
+      Int64FieldAccess() => access.editor,
+      NumericDoubleFieldAccess() => access.editor,
+      MessageFieldAccess() => access.editor,
+      EnumFieldAccess() => access.editor,
+      BoolFieldAccess() => access.editor,
+      StringFieldAccess() => access.editor,
+      BytesFieldAccess() => access.editor,
+      RepeatedFieldAccess() => access.editor,
+      MapFieldAccess() => access.editor,
     };
   }
 
@@ -74,16 +77,33 @@ class PfeDefault {
                 fieldKey: fieldKey,
               ).call(editor, input),
               children: [
-                for (final field in calc.fieldsInDescriptorOrder)
-                  ListTile(
+                ...calc.fieldsInDescriptorOrder.map((field) {
+                  final concreteFieldKey = ConcreteFieldKey(
+                    messageType: fieldKey.messageType,
+                    tagNumber: field.tagNumber,
+                  );
+                  final selected = field.tagNumber == selectedTag;
+                  return ListTile(
                     title: PKFieldTitle(
-                      fieldKey: ConcreteFieldKey(
-                        messageType: fieldKey.messageType,
-                        tagNumber: field.tagNumber,
-                      ),
+                      fieldKey: concreteFieldKey,
                     ).call(editor, input),
-                    selected: field.tagNumber == selectedTag,
-                  ),
+                    selected: selected,
+                    onTap: () {
+                      popper.pop();
+                      if (!selected) {
+                        field.setFw(
+                          input,
+                          PKDefaultFieldValue(
+                            fieldKey: concreteFieldKey,
+                          ).call(
+                            editor,
+                            input,
+                          ),
+                        );
+                      }
+                    },
+                  );
+                }),
               ],
             );
           });
@@ -136,6 +156,12 @@ class PfeDefault {
         };
     }
   }
+
+  static PFN<Mfw, dynamic> defaultFieldValue(PKDefaultFieldValue key) {
+    return (editor, input) {
+      return key.fieldKey.calc.defaultSingleValue;
+    };
+  }
 }
 
 PFN _pfeDefault(PfeKey key) {
@@ -145,6 +171,7 @@ PFN _pfeDefault(PfeKey key) {
     PKFieldTitle() => PfeDefault.fieldTitle(key),
     PKOneofFieldEditor() => PfeDefault.oneofFieldEditor(key),
     PKConcreteFieldEditor() => PfeDefault.concreteFieldEditor(key),
+    PKDefaultFieldValue() => PfeDefault.defaultFieldValue(key),
   };
 
   return (editor, input) => result(editor, input);
