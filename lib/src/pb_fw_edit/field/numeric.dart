@@ -5,6 +5,9 @@ extension _NumericIntFieldAccessX on NumericIntFieldAccess {
         return listTile(
           editor: editor,
           input: input,
+          subtitle: flcText(
+            () => getOpt(input())?.toString() ?? '<not set>',
+          ),
         );
       };
 }
@@ -14,6 +17,9 @@ extension _Int64FieldAccessX on Int64FieldAccess {
         return listTile(
           editor: editor,
           input: input,
+          subtitle: flcText(
+            () => getOpt(input())?.toString() ?? '<not set>',
+          ),
         );
       };
 }
@@ -23,6 +29,9 @@ extension _NumericDoubleFieldAccessX on NumericDoubleFieldAccess {
         return listTile(
           editor: editor,
           input: input,
+          subtitle: flcText(
+            () => getOpt(input())?.toString() ?? '<not set>',
+          ),
         );
       };
 }

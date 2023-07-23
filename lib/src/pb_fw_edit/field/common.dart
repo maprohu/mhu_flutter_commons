@@ -8,9 +8,19 @@ extension _CommonFieldAccessX on FieldAccess {
     VoidCallback? onTap,
   }) {
     return ListTile(
-      title: PKFieldTitle(fieldKey: fieldKey).call(editor, input),
+      title: fieldTitle(editor, input),
       subtitle: subtitle,
       onTap: onTap,
+    );
+  }
+  
+  
+  Widget fieldTitle(Pfe editor, Mfw input) {
+    return PKFieldTitle(
+      fieldKey: fieldKey,
+    ).call(
+      editor,
+      input,
     );
   }
 }

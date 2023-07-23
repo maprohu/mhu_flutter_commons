@@ -2,6 +2,10 @@ part of 'proto_edit_frp.dart';
 
 typedef PFN<I, O> = O Function(Pfe editor, I input);
 
+extension PFNX<I, O> on PFN<I, O> {
+  PFN get typeless => (editor, input) => call(editor, input);
+}
+
 abstract interface class PKIO<I, O> {}
 
 typedef Mfw = Fw<GeneratedMessage>;
@@ -37,4 +41,9 @@ sealed class PfeKey with _$PfeKey {
   const factory PfeKey.defaultFieldValue({
     required ConcreteFieldKey fieldKey,
   }) = PKDefaultFieldValue;
+
+  @Implements.fromString("PKIO<DspReg, Fr<bool>>")
+  const factory PfeKey.fieldVisibility({
+    required FieldKey fieldKey,
+  }) = PKFieldVisibility;
 }

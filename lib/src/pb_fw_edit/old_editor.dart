@@ -9,65 +9,7 @@ class FlcDefaultProtoFwEditor implements FlcProtoFwEditor {
 
 
 
-  Fw<GeneratedMessage> _fldFwMsg({
-    required Fw<GeneratedMessage> msgFw,
-    required PdFld pdFld,
-  }) {
-    final pmFld = pmFldFor(pdFld) as PmMsgFieldOfMessageOfType;
 
-    return msgFw.protoField(
-      get: pmFld.get,
-      set: pmFld.set,
-    );
-  }
-
-  Widget? subtitleForField(
-      PdFld fld,
-      Fw<GeneratedMessage> msgFw,
-      ProtoFwPath path,
-      ) {
-    switch (fld.cardinality) {
-      case PdfSingle():
-        final fldFw = _fldFw(msgFw: msgFw, pdFld: fld);
-
-        switch (fld.singleValueType) {
-          case PdfBoolType():
-            return null;
-          case PdfStringType():
-            return flcFrr(() {
-              final String value = fldFw();
-              return Text(value);
-            });
-          case PdfEnumType():
-            return flcFrr(() {
-              final ProtobufEnum value = fldFw();
-              return Text(value.name.camelCaseToLabel);
-            });
-          case PdfIntType():
-            return flcFrr(() {
-              final int value = fldFw();
-              return Text(value.toString());
-            });
-          case final other:
-            _logger.w('Not implemented: $other');
-            return const Text('<todo>');
-        }
-      case PdfMapOf():
-        final fldFr = _fldFr(msgFw: msgFw, pdFld: fld);
-        return flcFrr(() {
-          final Map value = fldFr();
-          final count = value.length;
-          return Text('$count ${count == 1 ? 'item' : 'items'}');
-        });
-      case PdfRepeated():
-        final fldFr = _fldFr(msgFw: msgFw, pdFld: fld);
-        return flcFrr(() {
-          final List value = fldFr();
-          final count = value.length;
-          return Text('$count ${count == 1 ? 'item' : 'items'}');
-        });
-    }
-  }
 
   // "concrete" means it is not  "oneof"
   Widget editorTileForConcreteField(

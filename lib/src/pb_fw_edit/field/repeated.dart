@@ -5,6 +5,12 @@ extension _RepeatedFieldAccessX on RepeatedFieldAccess {
     return listTile(
       editor: editor,
       input: input,
+      subtitle: flcText(
+            () {
+          final count = get(input()).length;
+          return '$count ${count == 1 ? 'item' : 'items'}';
+        },
+      ),
     );
   };
 }

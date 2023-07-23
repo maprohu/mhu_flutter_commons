@@ -81,25 +81,25 @@ Future<String?> showTextInputDialog({
 
 typedef StringValidator = Iterable<String> Function(Fr<String> value);
 
-Future<void> stringEditorDialog({
-  required FlcUi ui,
-  required Widget title,
-  required String initialValue,
-  required void Function(String value) onSubmit,
-  StringValidator validator = empty1,
-  Widget? submitLabel,
-}) async {
-  final value = await showTextInputDialog(
-    ui: ui,
-    title: title,
-    initialValue: initialValue,
-    validator: validator,
-    submitLabel: submitLabel,
-  );
-  if (value != null) {
-    onSubmit(value);
-  }
-}
+// Future<void> stringEditorDialog({
+//   required FlcUi ui,
+//   required Widget title,
+//   required String initialValue,
+//   required void Function(String value) onSubmit,
+//   StringValidator validator = empty1,
+//   Widget? submitLabel,
+// }) async {
+//   final value = await showTextInputDialog(
+//     ui: ui,
+//     title: title,
+//     initialValue: initialValue,
+//     validator: validator,
+//     submitLabel: submitLabel,
+//   );
+//   if (value != null) {
+//     onSubmit(value);
+//   }
+// }
 
 Future<void> intEditorDialog({
   required FlcUi ui,

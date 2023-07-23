@@ -22,26 +22,34 @@ class PfeDefault {
   static PFN<Mfw, Widget> fieldEditor(PKFieldEditor key) {
     final fieldKey = key.fieldKey;
 
-    switch (fieldKey) {
-      case ConcreteFieldKey():
-        return (editor, mfw) {
+    final PFN<Mfw, Widget> fn = switch (fieldKey) {
+      ConcreteFieldKey() => (editor, mfw) {
           return PKConcreteFieldEditor(
             fieldKey: fieldKey,
           ).call(
             editor,
             mfw,
           );
-        };
-      case OneofFieldKey():
-        return (editor, mfw) {
+        },
+      OneofFieldKey() => (editor, mfw) {
           return PKOneofFieldEditor(
             fieldKey: fieldKey,
           ).call(
             editor,
             mfw,
           );
-        };
-    }
+        },
+    };
+
+    return (editor, input) {
+      return _withFieldVisibility(
+        editor: editor,
+        fieldKey: fieldKey,
+        builder: () {
+          return fn(editor, input);
+        },
+      );
+    };
   }
 
   static PFN<Mfw, Widget> concreteFieldEditor(PKConcreteFieldEditor key) {
@@ -162,17 +170,22 @@ class PfeDefault {
       return key.fieldKey.calc.defaultSingleValue;
     };
   }
+
+  static PFN<DspReg, Fr<bool>> fieldVisibility(PKFieldVisibility key) {
+    return (editor, input) {
+      return input.fw(true);
+    };
+  }
 }
 
 PFN _pfeDefault(PfeKey key) {
-  final result = switch (key) {
-    PKMessageEditor() => PfeDefault.messageEditor(key),
-    PKFieldEditor() => PfeDefault.fieldEditor(key),
-    PKFieldTitle() => PfeDefault.fieldTitle(key),
-    PKOneofFieldEditor() => PfeDefault.oneofFieldEditor(key),
-    PKConcreteFieldEditor() => PfeDefault.concreteFieldEditor(key),
-    PKDefaultFieldValue() => PfeDefault.defaultFieldValue(key),
+  return switch (key) {
+    PKMessageEditor() => PfeDefault.messageEditor(key).typeless,
+    PKFieldEditor() => PfeDefault.fieldEditor(key).typeless,
+    PKFieldTitle() => PfeDefault.fieldTitle(key).typeless,
+    PKOneofFieldEditor() => PfeDefault.oneofFieldEditor(key).typeless,
+    PKConcreteFieldEditor() => PfeDefault.concreteFieldEditor(key).typeless,
+    PKDefaultFieldValue() => PfeDefault.defaultFieldValue(key).typeless,
+    PKFieldVisibility() => PfeDefault.fieldVisibility(key).typeless,
   };
-
-  return (editor, input) => result(editor, input);
 }

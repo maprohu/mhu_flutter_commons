@@ -4,9 +4,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logger/logger.dart';
 import 'package:mhu_dart_commons/commons.dart';
 import 'package:mhu_dart_proto/mhu_dart_proto.dart';
+import 'package:mhu_flutter_commons/mhu_flutter_commons.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:recase/recase.dart';
 
+import '../flc_edit.dart';
 import '../frp.dart';
 import '../widgets.dart';
 import '../app.dart';
@@ -25,6 +27,10 @@ part 'keys.dart';
 
 part 'editor.dart';
 
+part 'builder.dart';
+
+part 'common.dart';
+
 part 'field/common.dart';
 
 part 'field/message.dart';
@@ -38,7 +44,9 @@ part 'field/bytes.dart';
 part 'field/numeric.dart';
 
 part 'field/string.dart';
+
 part 'field/repeated.dart';
+
 part 'field/map.dart';
 
 final _logger = Logger();

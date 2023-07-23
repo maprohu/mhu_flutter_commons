@@ -8,6 +8,16 @@ extension _StringFieldAccessX on StringFieldAccess {
           subtitle: flcText(
             () => getOpt(input()) ?? '<not set>',
           ),
+          onTap: () {
+            ValidatingTextField.showDialog(
+              ui: editor.ui,
+              title: fieldTitle(editor, input),
+              initialValue: get(input.read()),
+              onSubmit: setFwFor(input),
+              validator: empty1,
+              textProcessor: identity,
+            );
+          },
         );
       };
 }

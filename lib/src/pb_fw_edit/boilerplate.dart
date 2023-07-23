@@ -1,19 +1,19 @@
 part of 'proto_edit_frp.dart';
 
 class ProtoFwEditorImpl implements ProtoFwEditor {
-  final Pfe pfe;
+  final Pfe _pfe;
 
   ProtoFwEditorImpl({
-    PfeConfig? cfg,
+    PfeConfig? config,
     required FlcUi ui,
-  }) : pfe = Pfe(cfg: cfg ?? IMap(), ui: ui);
+  }) : _pfe = Pfe(config: config ?? IMap(), ui: ui);
 
   @override
   Widget fieldEditor<M extends GeneratedMessage>({
     required Fw<M> message,
     required FieldMarker<M> field,
   }) {
-    return pfe(
+    return _pfe(
       PKFieldEditor(
         fieldKey: field.fieldKey,
       ),
@@ -25,7 +25,7 @@ class ProtoFwEditorImpl implements ProtoFwEditor {
   Widget messageEditor<M extends GeneratedMessage>(
     Fw<M> message,
   ) {
-    return pfe(
+    return _pfe(
       PKMessageEditor(
         messageType: message.read().runtimeType,
       ),
