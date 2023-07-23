@@ -1,9 +1,8 @@
+import 'package:decimal/decimal.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mhu_dart_commons/commons.dart';
 import 'package:mhu_flutter_commons/mhu_flutter_commons.dart';
-
-part 'textfield.freezed.dart';
 
 extension TextEditingControllerX on TextEditingController {
   void selectAll() => selection = TextSelection(
@@ -14,7 +13,7 @@ extension TextEditingControllerX on TextEditingController {
 
 class ValidatingTextController {
   final String initialValue;
-  final Iterable<String> Function(String value) validator;
+  final Iterable<String> Function(String value) watchValidate;
   final String Function(String value) textProcessor;
 
   static Iterable<String> defaultValidator(String value) => [
@@ -25,7 +24,7 @@ class ValidatingTextController {
 
   ValidatingTextController({
     required String initialValue,
-    this.validator = defaultValidator,
+    this.watchValidate = defaultValidator,
     this.textProcessor = defaultTextProcessor,
   }) : initialValue = textProcessor(initialValue);
 
@@ -47,7 +46,7 @@ class ValidatingTextController {
 
   late final editingState = fr(() {
     final text = editingText();
-    final errors = validator(text);
+    final errors = watchValidate(text);
     return (
       text: text,
       errors: errors,
@@ -158,14 +157,14 @@ class ValidatingTextField extends StatelessWidget {
     required Widget title,
     String initialValue = '',
     required void Function(String value) onSubmit,
-    Iterable<String> Function(String value) validator =
+    Iterable<String> Function(String value) watchValidate =
         ValidatingTextController.defaultValidator,
     String Function(String value) textProcessor =
         ValidatingTextController.defaultTextProcessor,
   }) async {
     final controller = ValidatingTextController(
       initialValue: initialValue,
-      validator: validator,
+      watchValidate: watchValidate,
       textProcessor: textProcessor,
     );
     await controller.showDialog(
@@ -180,7 +179,7 @@ class ValidatingTextField extends StatelessWidget {
     required FlcUi ui,
     required Widget title,
     String initialValue = '',
-    required ParseResult<T> Function(String value) parser,
+    required ParseFunction<T> parser,
     required void Function(T value) onSubmit,
   }) async {
     final controller = ParsingTextController(
@@ -195,37 +194,68 @@ class ValidatingTextField extends StatelessWidget {
       result: controller.validDirtyParsedValue,
     );
   }
-}
 
-@freezed
-sealed class ParseResult<T extends Object> with _$ParseResult<T> {
-  const factory ParseResult.success({
-    required T result,
-  }) = ParseSuccess<T>;
+  static Future<void> showIntDialog({
+    required FlcUi ui,
+    required Widget title,
+    String initialValue = '',
+    required void Function(int value) onSubmit,
+  }) async {
+    await showParsingDialog(
+      ui: ui,
+      title: title,
+      parser: intParseFunction,
+      onSubmit: onSubmit,
+      initialValue: initialValue,
+    );
+  }
+  static Future<void> showInt64Dialog({
+    required FlcUi ui,
+    required Widget title,
+    String initialValue = '',
+    required void Function(Int64 value) onSubmit,
+  }) async {
+    await showParsingDialog(
+      ui: ui,
+      title: title,
+      parser: int64ParseFunction,
+      onSubmit: onSubmit,
+      initialValue: initialValue,
+    );
+  }
+  static Future<void> showDoubleDialog({
+    required FlcUi ui,
+    required Widget title,
+    String initialValue = '',
+    required void Function(double value) onSubmit,
+  }) async {
+    await showParsingDialog(
+      ui: ui,
+      title: title,
+      parser: doubleParseFunction,
+      onSubmit: onSubmit,
+      initialValue: initialValue,
+    );
+  }
 
-  const factory ParseResult.failure({
-    required Iterable<String> errors,
-  }) = ParseFailure<T>;
-
-  T? get orNull {
-    switch (this) {
-      case ParseFailure():
-        return null;
-      case ParseSuccess(:final result):
-        return result;
-    }
+  static Future<void> showDecimalDialog({
+    required FlcUi ui,
+    required Widget title,
+    String initialValue = '',
+    required void Function(Decimal value) onSubmit,
+  }) async {
+    await showParsingDialog(
+      ui: ui,
+      title: title,
+      parser: decimalParseFunction,
+      onSubmit: onSubmit,
+      initialValue: initialValue,
+    );
   }
 }
 
-extension ParseResultT<T extends Object> on ParseResult<T> {
-  Iterable<String> get errors => switch (this) {
-        ParseSuccess() => const Iterable.empty(),
-        ParseFailure(:final errors) => errors,
-      };
-}
-
 class ParsingTextController<T extends Object> extends ValidatingTextController {
-  final ParseResult<T> Function(String value) parser;
+  final ParseFunction<T> parser;
 
   late final ParseResult<T> initialParsedValue = parser(initialValue);
 
@@ -233,7 +263,7 @@ class ParsingTextController<T extends Object> extends ValidatingTextController {
     required this.parser,
     required super.initialValue,
   }) : super(
-          validator: (value) => parser(value).errors,
+          watchValidate: (value) => parser(value).errors,
           textProcessor: identity,
         );
 

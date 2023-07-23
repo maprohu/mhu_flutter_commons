@@ -165,6 +165,23 @@ class PfeDefault {
     }
   }
 
+  static PFN<Mfw, Widget?> fieldSubtitle(PKFieldSubtitle key) {
+    final access = key.fieldKey.calc.access;
+    switch (access) {
+      case MapFieldAccess():
+        return (editor, input) {
+          return flcText(() {
+            final count = access.get(input()).length;
+
+            return '$count ${count == 1 ? 'item' : 'items'}';
+          });
+        };
+
+      default:
+        return (editor, input) => null;
+    }
+  }
+
   static PFN<Mfw, dynamic> defaultFieldValue(PKDefaultFieldValue key) {
     return (editor, input) {
       return key.fieldKey.calc.defaultSingleValue;
@@ -176,6 +193,38 @@ class PfeDefault {
       return input.fw(true);
     };
   }
+
+  static PFN<Mfw, FutureOr<PbMapKey?>> createMapKey(PKCreateMapKey key) {
+    final access = key.fieldKey.calc.access as MapFieldAccess;
+
+    switch (access.defaultMapKey) {
+      case PbIntMapKey():
+        return (editor, input) {
+          final keys = access.get(input.read()).keys as Iterable<int>;
+          return PbMapKey.int((keys.maxOrNull ?? 0) + 1);
+        };
+      case PbStringMapKey():
+        return (editor, input) async {
+          PbStringMapKey? result;
+          await ValidatingTextField.showDialog(
+            ui: editor.ui,
+            title: "New Item Key".txt,
+            onSubmit: (value) {
+              result = PbStringMapKey(value);
+            },
+            watchValidate: (value) {
+              final currentValue = access.get(input());
+              return [
+                if (value.trim().isEmpty) 'Key must not be empty.',
+                if (currentValue.containsKey(value)) 'Key already exists.',
+              ];
+            },
+          );
+
+          return result;
+        };
+    }
+  }
 }
 
 PFN _pfeDefault(PfeKey key) {
@@ -183,9 +232,11 @@ PFN _pfeDefault(PfeKey key) {
     PKMessageEditor() => PfeDefault.messageEditor(key).typeless,
     PKFieldEditor() => PfeDefault.fieldEditor(key).typeless,
     PKFieldTitle() => PfeDefault.fieldTitle(key).typeless,
+    PKFieldSubtitle() => PfeDefault.fieldSubtitle(key).typeless,
     PKOneofFieldEditor() => PfeDefault.oneofFieldEditor(key).typeless,
     PKConcreteFieldEditor() => PfeDefault.concreteFieldEditor(key).typeless,
     PKDefaultFieldValue() => PfeDefault.defaultFieldValue(key).typeless,
     PKFieldVisibility() => PfeDefault.fieldVisibility(key).typeless,
+    PKCreateMapKey() => PfeDefault.createMapKey(key).typeless,
   };
 }

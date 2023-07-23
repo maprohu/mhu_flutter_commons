@@ -14,7 +14,7 @@ extension _StringFieldAccessX on StringFieldAccess {
               title: fieldTitle(editor, input),
               initialValue: get(input.read()),
               onSubmit: setFwFor(input),
-              validator: empty1,
+              watchValidate: empty1,
               textProcessor: identity,
             );
           },

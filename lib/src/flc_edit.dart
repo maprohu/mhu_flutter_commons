@@ -101,53 +101,53 @@ typedef StringValidator = Iterable<String> Function(Fr<String> value);
 //   }
 // }
 
-Future<void> intEditorDialog({
-  required FlcUi ui,
-  required Widget title,
-  required int? initialValue,
-  required void Function(int value) onSubmit,
-  StringValidator validator = empty1,
-}) {
-  return stringEditorDialog(
-    ui: ui,
-    title: title,
-    initialValue: initialValue?.let((v) => v.toString()) ?? '',
-    onSubmit: (value) {
-      onSubmit(int.parse(value));
-    },
-    validator: (value) => [
-      ...validateStringOfInt(value),
-      ...validator(value),
-    ],
-  );
-}
+// Future<void> intEditorDialog({
+//   required FlcUi ui,
+//   required Widget title,
+//   required int? initialValue,
+//   required void Function(int value) onSubmit,
+//   StringValidator validator = empty1,
+// }) {
+//   return stringEditorDialog(
+//     ui: ui,
+//     title: title,
+//     initialValue: initialValue?.let((v) => v.toString()) ?? '',
+//     onSubmit: (value) {
+//       onSubmit(int.parse(value));
+//     },
+//     validator: (value) => [
+//       ...validateStringOfInt(value),
+//       ...validator(value),
+//     ],
+//   );
+// }
 
 Iterable<String> validateStringOfInt(Fr<String> value) => [
       if (int.tryParse(value()) == null) 'Not a valid number.',
     ];
 
-Future<void> decimalEditorDialog({
-  required FlcUi ui,
-  required Widget title,
-  required Decimal? initialValue,
-  required void Function(Decimal value) onSubmit,
-  StringValidator validator = empty1,
-}) {
-  return stringEditorDialog(
-    ui: ui,
-    title: title,
-    initialValue: initialValue?.let((v) => v.toStringAsFixed(2)) ?? '',
-    onSubmit: (value) {
-      onSubmit(
-        tryParseDecimal(value)!,
-      );
-    },
-    validator: (value) => [
-      ...validateStringOfDecimal(value),
-      ...validator(value),
-    ],
-  );
-}
+// Future<void> decimalEditorDialog({
+//   required FlcUi ui,
+//   required Widget title,
+//   required Decimal? initialValue,
+//   required void Function(Decimal value) onSubmit,
+//   StringValidator validator = empty1,
+// }) {
+//   return stringEditorDialog(
+//     ui: ui,
+//     title: title,
+//     initialValue: initialValue?.let((v) => v.toStringAsFixed(2)) ?? '',
+//     onSubmit: (value) {
+//       onSubmit(
+//         tryParseDecimal(value)!,
+//       );
+//     },
+//     validator: (value) => [
+//       ...validateStringOfDecimal(value),
+//       ...validator(value),
+//     ],
+//   );
+// }
 
 Iterable<String> validateStringOfDecimal(Fr<String> value) {
   final string = value();

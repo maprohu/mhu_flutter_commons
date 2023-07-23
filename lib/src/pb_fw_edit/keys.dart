@@ -37,6 +37,11 @@ sealed class PfeKey with _$PfeKey {
     required FieldKey fieldKey,
   }) = PKFieldTitle;
 
+  @Implements.fromString("PKIO<Mfw, Widget?>")
+  const factory PfeKey.fieldSubtitle({
+    required ConcreteFieldKey fieldKey,
+  }) = PKFieldSubtitle;
+
   @Implements.fromString("PKIO<Mfw, dynamic>")
   const factory PfeKey.defaultFieldValue({
     required ConcreteFieldKey fieldKey,
@@ -46,4 +51,9 @@ sealed class PfeKey with _$PfeKey {
   const factory PfeKey.fieldVisibility({
     required FieldKey fieldKey,
   }) = PKFieldVisibility;
+
+  @Implements.fromString("PKIO<Mfw, FutureOr<PbMapKey?>>")
+  const factory PfeKey.createMapKey({
+    required ConcreteFieldKey fieldKey,
+  }) = PKCreateMapKey;
 }
