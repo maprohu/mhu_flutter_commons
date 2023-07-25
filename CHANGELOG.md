@@ -1,3 +1,9 @@
+## 1.0.5
+
+- editor ui for new protobuf generated meta classes
+- migrating several UI utilities from old repository
+
+
 ## 1.0.4
 
 - added feature for taking automated app screenshots

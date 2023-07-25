@@ -95,6 +95,7 @@ extension ValidatingTextControllerX on ValidatingTextController {
     required Widget title,
     required void Function(T value) onSubmit,
     required Fr<T?> result,
+    TextInputType? keyboardType,
   }) async {
     await ui.showDialog((popper) {
       return AlertDialog(
@@ -102,6 +103,7 @@ extension ValidatingTextControllerX on ValidatingTextController {
         content: ValidatingTextField(
           controller: this,
           autofocus: true,
+          keyboardType: keyboardType,
         ),
         actions: [
           TextButton(
@@ -130,12 +132,14 @@ class ValidatingTextField extends StatelessWidget {
   final ValidatingTextController controller;
   final bool autofocus;
   final String? labelText;
+  final TextInputType? keyboardType;
 
   ValidatingTextField({
     super.key,
     required this.controller,
     this.autofocus = false,
     this.labelText,
+    this.keyboardType,
   });
 
   @override
@@ -148,6 +152,7 @@ class ValidatingTextField extends StatelessWidget {
           labelText: labelText,
           errorText: controller.validationErrorTextSkipInitial(),
         ),
+        keyboardType: keyboardType,
       );
     });
   }
@@ -161,6 +166,7 @@ class ValidatingTextField extends StatelessWidget {
         ValidatingTextController.defaultValidator,
     String Function(String value) textProcessor =
         ValidatingTextController.defaultTextProcessor,
+    TextInputType? keyboardType,
   }) async {
     final controller = ValidatingTextController(
       initialValue: initialValue,
@@ -172,6 +178,7 @@ class ValidatingTextField extends StatelessWidget {
       title: title,
       onSubmit: onSubmit,
       result: controller.validDirtyEditingText,
+      keyboardType: keyboardType,
     );
   }
 
@@ -181,6 +188,7 @@ class ValidatingTextField extends StatelessWidget {
     String initialValue = '',
     required ParseFunction<T> parser,
     required void Function(T value) onSubmit,
+    TextInputType? keyboardType,
   }) async {
     final controller = ParsingTextController(
       initialValue: initialValue,
@@ -192,6 +200,7 @@ class ValidatingTextField extends StatelessWidget {
       title: title,
       onSubmit: onSubmit,
       result: controller.validDirtyParsedValue,
+      keyboardType: keyboardType,
     );
   }
 
@@ -207,8 +216,10 @@ class ValidatingTextField extends StatelessWidget {
       parser: intParseFunction,
       onSubmit: onSubmit,
       initialValue: initialValue,
+      keyboardType: TextInputType.number,
     );
   }
+
   static Future<void> showInt64Dialog({
     required FlcUi ui,
     required Widget title,
@@ -221,8 +232,10 @@ class ValidatingTextField extends StatelessWidget {
       parser: int64ParseFunction,
       onSubmit: onSubmit,
       initialValue: initialValue,
+      keyboardType: TextInputType.number,
     );
   }
+
   static Future<void> showDoubleDialog({
     required FlcUi ui,
     required Widget title,
@@ -235,6 +248,9 @@ class ValidatingTextField extends StatelessWidget {
       parser: doubleParseFunction,
       onSubmit: onSubmit,
       initialValue: initialValue,
+      keyboardType: TextInputType.numberWithOptions(
+        decimal: true,
+      ),
     );
   }
 
@@ -250,6 +266,9 @@ class ValidatingTextField extends StatelessWidget {
       parser: decimalParseFunction,
       onSubmit: onSubmit,
       initialValue: initialValue,
+      keyboardType: TextInputType.numberWithOptions(
+        decimal: true,
+      ),
     );
   }
 }

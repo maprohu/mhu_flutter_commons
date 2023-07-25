@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:mhu_dart_commons/commons.dart';
 
