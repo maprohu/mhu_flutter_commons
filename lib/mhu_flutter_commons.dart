@@ -25,3 +25,5 @@ export 'src/bottom_navigator.dart';
 export 'src/router.dart';
 export 'src/pb_fw_edit/proto_edit_frp.dart';
 export 'src/ticker.dart';
+export 'src/safe_area.dart';
+export 'src/model_editor.dart';

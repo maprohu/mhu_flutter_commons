@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:mhu_dart_commons/commons.dart';
 import 'package:mhu_flutter_commons/src/package_info.dart';
@@ -288,11 +288,13 @@ class FlcUi {
 
   Future<T?> showConfirmDialog<T>({
     required Widget title,
+    Widget? content,
     required FutureOr<T> Function() onConfirm,
   }) {
     return showDialog(
       (popper) => AlertDialog(
         title: title,
+        content: content,
         actions: [
           TextButton(
             onPressed: popper.pop,

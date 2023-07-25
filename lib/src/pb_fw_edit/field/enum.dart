@@ -34,4 +34,12 @@ extension _EnumFieldAccessX on EnumFieldAccess {
           },
         );
       };
+  PFN<PICollectionItem, FutureOr<void>> get collectionItemEditor =>
+          (editor, input) {};
+  PFN<PICollectionItem, Widget?> get collectionItemSubtitle =>
+          (editor, input) => null;
+  PFN<PICreateCollectionItem, FutureOr<Object?>> get createCollectionItem {
+    final defaultValue = defaultSingleValue;
+    return (editor, input) => defaultValue.also(input.addToCollection);
+  }
 }

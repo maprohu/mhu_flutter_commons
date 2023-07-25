@@ -167,19 +167,11 @@ class PfeDefault {
 
   static PFN<Mfw, Widget?> fieldSubtitle(PKFieldSubtitle key) {
     final access = key.fieldKey.calc.access;
-    switch (access) {
-      case MapFieldAccess():
-        return (editor, input) {
-          return flcText(() {
-            final count = access.get(input()).length;
-
-            return '$count ${count == 1 ? 'item' : 'items'}';
-          });
-        };
-
-      default:
-        return (editor, input) => null;
-    }
+    return switch (access) {
+      MapFieldAccess() => access.fieldSubtitle,
+      RepeatedFieldAccess() => access.fieldSubtitle,
+      _ => (editor, input) => null,
+    };
   }
 
   static PFN<Mfw, dynamic> defaultFieldValue(PKDefaultFieldValue key) {
@@ -225,6 +217,70 @@ class PfeDefault {
         };
     }
   }
+
+  static PFN<PICreateCollectionItem, FutureOr<Object?>> createCollectionItem(
+    PKCreateCollectionItem key,
+  ) {
+    final access = key.fieldKey.calc.singleValueFieldAccess;
+    return switch (access) {
+      NumericIntFieldAccess() => access.createCollectionItem,
+      Int64FieldAccess() => access.createCollectionItem,
+      NumericDoubleFieldAccess() => access.createCollectionItem,
+      MessageFieldAccess() => access.createCollectionItem,
+      EnumFieldAccess() => access.createCollectionItem,
+      BoolFieldAccess() => access.createCollectionItem,
+      StringFieldAccess() => access.createCollectionItem,
+      BytesFieldAccess() => access.createCollectionItem,
+      _ => throw access,
+    };
+  }
+
+  static PFN<PICollectionItem, Widget> collectionItemTitle(
+      PKCollectionItemTitle key) {
+    final access = key.fieldKey.calc.access;
+    return switch (access) {
+      RepeatedFieldAccess() => access.collectionItemTitle,
+      MapFieldAccess() => access.collectionItemTitle,
+      _ => throw access,
+    };
+  }
+
+  static PFN<PICollectionItem, Widget?> collectionItemSubtitle(
+      PKCollectionItemSubtitle key) {
+    final access = key.fieldKey.calc.singleValueFieldAccess;
+    return switch (access) {
+      NumericIntFieldAccess() => access.collectionItemSubtitle,
+      Int64FieldAccess() => access.collectionItemSubtitle,
+      NumericDoubleFieldAccess() => access.collectionItemSubtitle,
+      MessageFieldAccess() => access.collectionItemSubtitle,
+      EnumFieldAccess() => access.collectionItemSubtitle,
+      BoolFieldAccess() => access.collectionItemSubtitle,
+      StringFieldAccess() => access.collectionItemSubtitle,
+      BytesFieldAccess() => access.collectionItemSubtitle,
+      _ => throw access,
+    };
+  }
+
+  static PFN<PISortCollectionItems, Iterable<PbEntry>> sortCollectionItems(
+      PKSortCollectionItems key) {
+    return (editor, input) => input.items;
+  }
+
+  static PFN<PICollectionItem, FutureOr<void>> editCollectionItem(
+      PKEditCollectionItem key) {
+    final access = key.fieldKey.calc.singleValueFieldAccess;
+    return switch (access) {
+      NumericIntFieldAccess() => access.collectionItemEditor,
+      Int64FieldAccess() => access.collectionItemEditor,
+      NumericDoubleFieldAccess() => access.collectionItemEditor,
+      MessageFieldAccess() => access.collectionItemEditor,
+      EnumFieldAccess() => access.collectionItemEditor,
+      BoolFieldAccess() => access.collectionItemEditor,
+      StringFieldAccess() => access.collectionItemEditor,
+      BytesFieldAccess() => access.collectionItemEditor,
+      _ => throw access,
+    };
+  }
 }
 
 PFN _pfeDefault(PfeKey key) {
@@ -238,5 +294,11 @@ PFN _pfeDefault(PfeKey key) {
     PKDefaultFieldValue() => PfeDefault.defaultFieldValue(key).typeless,
     PKFieldVisibility() => PfeDefault.fieldVisibility(key).typeless,
     PKCreateMapKey() => PfeDefault.createMapKey(key).typeless,
+    PKCreateCollectionItem() => PfeDefault.createCollectionItem(key).typeless,
+    PKCollectionItemTitle() => PfeDefault.collectionItemTitle(key).typeless,
+    PKCollectionItemSubtitle() =>
+      PfeDefault.collectionItemSubtitle(key).typeless,
+    PKSortCollectionItems() => PfeDefault.sortCollectionItems(key).typeless,
+    PKEditCollectionItem() => PfeDefault.editCollectionItem(key).typeless,
   };
 }

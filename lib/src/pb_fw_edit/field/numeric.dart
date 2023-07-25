@@ -18,6 +18,17 @@ extension _NumericIntFieldAccessX on NumericIntFieldAccess {
           },
         );
       };
+
+  PFN<PICollectionItem, FutureOr<void>> get collectionItemEditor =>
+      (editor, input) {};
+
+  PFN<PICollectionItem, Widget?> get collectionItemSubtitle =>
+      (editor, input) => null;
+
+  PFN<PICreateCollectionItem, FutureOr<Object?>> get createCollectionItem {
+    final defaultValue = defaultSingleValue;
+    return (editor, input) => defaultValue.also(input.addToCollection);
+  }
 }
 
 extension _Int64FieldAccessX on Int64FieldAccess {
@@ -38,6 +49,17 @@ extension _Int64FieldAccessX on Int64FieldAccess {
           },
         );
       };
+
+  PFN<PICollectionItem, FutureOr<void>> get collectionItemEditor =>
+      (editor, input) {};
+
+  PFN<PICollectionItem, Widget?> get collectionItemSubtitle =>
+      (editor, input) => null;
+
+  PFN<PICreateCollectionItem, FutureOr<Object?>> get createCollectionItem {
+    final defaultValue = defaultSingleValue;
+    return (editor, input) => defaultValue.also(input.addToCollection);
+  }
 }
 
 extension _NumericDoubleFieldAccessX on NumericDoubleFieldAccess {
@@ -58,4 +80,15 @@ extension _NumericDoubleFieldAccessX on NumericDoubleFieldAccess {
           },
         );
       };
+
+  PFN<PICollectionItem, FutureOr<void>> get collectionItemEditor =>
+      (editor, input) {};
+
+  PFN<PICollectionItem, Widget?> get collectionItemSubtitle =>
+      (editor, input) => null;
+
+  PFN<PICreateCollectionItem, FutureOr<Object?>> get createCollectionItem {
+    final defaultValue = defaultSingleValue;
+    return (editor, input) => defaultValue.also(input.addToCollection);
+  }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:mhu_dart_commons/commons.dart';
 import 'package:mhu_flutter_commons/mhu_flutter_commons.dart';
 
@@ -21,6 +21,7 @@ class ScaffoldParts with _$ScaffoldParts {
     Widget? drawer,
     Widget? body,
     Widget? bottomNavigatorBar,
+    bool? resizeToAvoidBottomInset,
   }) = _ScaffoldParts;
 }
 
@@ -43,6 +44,7 @@ extension ScaffoldPartsX on ScaffoldParts {
       drawer: drawer,
       body: body,
       bottomNavigationBar: bottomNavigatorBar,
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
     );
   }
 

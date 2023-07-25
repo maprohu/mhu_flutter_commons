@@ -9,6 +9,15 @@ extension PfeConfigX on PfeConfig {
       (editor, input) => fn(editor, input),
     );
   }
+
+  PfeConfig rebuild(
+    void Function(PfeBuilder builder) build,
+  ) {
+    return pfeConfig(
+      build,
+      initial: this,
+    );
+  }
 }
 
 // @freezed

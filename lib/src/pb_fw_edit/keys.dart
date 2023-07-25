@@ -10,7 +10,36 @@ abstract interface class PKIO<I, O> {}
 
 typedef Mfw = Fw<GeneratedMessage>;
 
-@freezed
+typedef PICreateCollectionItem = ({
+  Mfw mfw,
+  ConcreteFieldKey fieldKey,
+  PbMapKey key,
+  Fw Function(Object item) addToCollection,
+});
+
+typedef PICollectionItem = ({
+  Mfw mfw,
+  ConcreteFieldKey fieldKey,
+  PbMapKey key,
+  Fw itemFw,
+});
+
+typedef PbEntry<T> = ({
+  PbMapKey key,
+  T value,
+});
+
+typedef PISortCollectionItems = ({
+  Mfw mfw,
+  Iterable<PbEntry> items,
+});
+
+typedef PKIOSortCollectionItems
+    = PKIO<PISortCollectionItems, Iterable<PbEntry>>;
+
+@Freezed(
+  when: FreezedWhenOptions.none,
+)
 sealed class PfeKey with _$PfeKey {
   @Implements.fromString("PKIO<Mfw, Widget>")
   const factory PfeKey.messageEditor({
@@ -37,6 +66,16 @@ sealed class PfeKey with _$PfeKey {
     required FieldKey fieldKey,
   }) = PKFieldTitle;
 
+  @Implements.fromString("PKIO<PICollectionItem, Widget>")
+  const factory PfeKey.collectionItemTitle({
+    required ConcreteFieldKey fieldKey,
+  }) = PKCollectionItemTitle;
+
+  @Implements.fromString("PKIO<PICollectionItem, Widget?>")
+  const factory PfeKey.collectionItemSubtitle({
+    required ConcreteFieldKey fieldKey,
+  }) = PKCollectionItemSubtitle;
+
   @Implements.fromString("PKIO<Mfw, Widget?>")
   const factory PfeKey.fieldSubtitle({
     required ConcreteFieldKey fieldKey,
@@ -56,4 +95,19 @@ sealed class PfeKey with _$PfeKey {
   const factory PfeKey.createMapKey({
     required ConcreteFieldKey fieldKey,
   }) = PKCreateMapKey;
+
+  @Implements.fromString("PKIO<PICreateCollectionItem, FutureOr<Object?>>")
+  const factory PfeKey.createCollectionItem({
+    required ConcreteFieldKey fieldKey,
+  }) = PKCreateCollectionItem;
+
+  @Implements.fromString("PKIO<PICollectionItem, FutureOr<void>>")
+  const factory PfeKey.editCollectionItem({
+    required ConcreteFieldKey fieldKey,
+  }) = PKEditCollectionItem;
+
+  @Implements.fromString("PKIOSortCollectionItems")
+  const factory PfeKey.sortCollectionItems({
+    required ConcreteFieldKey fieldKey,
+  }) = PKSortCollectionItems;
 }
