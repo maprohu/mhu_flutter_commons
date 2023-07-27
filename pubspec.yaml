@@ -6,9 +6,9 @@ repository: https://github.com/maprohu/mhu_flutter_commons
 environment:
   sdk: ^3.0.5
 
-#dependency_overrides:
-#  mhu_dart_commons:
-#    path: ../mhu_dart_commons
+dependency_overrides:
+  mhu_dart_commons:
+    path: ../mhu_dart_commons
 #  mhu_dart_proto:
 #    path: ../mhu_dart_proto
 #  mhu_dart_model:
@@ -23,7 +23,7 @@ dependencies:
   intl: ^0.18.1
   collection: ^1.17.1
   logger: ^1.4.0
-  go_router: ^9.0.3
+  go_router: ^10.0.0
   flutter_svg:  ^2.0.7
   image:  ^4.0.17
   fast_immutable_collections: ^9.1.5

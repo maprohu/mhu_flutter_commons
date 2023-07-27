@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mhu_dart_commons/commons.dart';
 import 'package:mhu_dart_commons/screenshots.dart';
+
+import 'app.dart';
+import 'frp.dart';
 
 class ScreenshotsApp extends StatelessWidget {
   final void Function(BuildContext context) screenshots;
@@ -50,4 +54,37 @@ class _ScreenshotsWidgetState extends State<ScreenshotsWidget> {
       ),
     );
   }
+}
+
+Future<void> runScreenshotsApp(
+  Future<void> Function(
+    void Function(Widget widget) home,
+    FlcUi ui,
+    Future<void> Function(String name) shoot,
+  ) screenshots,
+) async {
+  final ui = FlcUi.create();
+
+  final home = fw<Widget>(Placeholder());
+
+  home.value = ScreenshotsWidget(
+    screenshots: (context) async {
+      final control = await ScreenshotsFlutter.tryCreate();
+
+      await screenshots(
+        home.set,
+        ui,
+        control?.take ?? (_) async {},
+      );
+
+      control?.shutdown();
+    },
+  );
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      navigatorKey: ui.nav,
+      home: flcFrr(() => home()),
+    ),
+  );
 }
