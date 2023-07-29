@@ -174,6 +174,16 @@ class PfeDefault {
     };
   }
 
+  static PFN<Mfw, VoidCallback?> fieldOnTap(PKFieldOnTap key) {
+    final access = key.fieldKey.calc.access;
+    return switch (access) {
+      StringFieldAccess() => access.fieldOnTap,
+      _ => (editor, input) => null,
+    };
+
+
+  }
+
   static PFN<Mfw, dynamic> defaultFieldValue(PKDefaultFieldValue key) {
     return (editor, input) {
       return key.fieldKey.calc.defaultSingleValue;
@@ -281,6 +291,7 @@ class PfeDefault {
       _ => throw access,
     };
   }
+
 }
 
 PFN _pfeDefault(PfeKey key) {
@@ -289,6 +300,7 @@ PFN _pfeDefault(PfeKey key) {
     PKFieldEditor() => PfeDefault.fieldEditor(key).typeless,
     PKFieldTitle() => PfeDefault.fieldTitle(key).typeless,
     PKFieldSubtitle() => PfeDefault.fieldSubtitle(key).typeless,
+    PKFieldOnTap() => PfeDefault.fieldOnTap(key).typeless,
     PKOneofFieldEditor() => PfeDefault.oneofFieldEditor(key).typeless,
     PKConcreteFieldEditor() => PfeDefault.concreteFieldEditor(key).typeless,
     PKDefaultFieldValue() => PfeDefault.defaultFieldValue(key).typeless,

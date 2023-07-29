@@ -83,7 +83,7 @@ extension _RepeatedFieldAccessX on RepeatedFieldAccess {
                             remove: (message) {
                               get(message).removeAt(pbKey.value);
                             },
-                          );
+                          ).withKey(item.key);
                           // return flcDsp((disposers) {
                           //   final itemFw = cachedFu.item(pbKey.value);
                           //

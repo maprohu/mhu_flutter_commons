@@ -8,17 +8,21 @@ extension _StringFieldAccessX on StringFieldAccess {
           subtitle: flcText(
             () => getOpt(input()) ?? '<not set>',
           ),
-          onTap: () {
-            ValidatingTextField.showDialog(
-              ui: editor.ui,
-              title: fieldTitle(editor, input),
-              initialValue: get(input.read()),
-              onSubmit: setFwFor(input),
-              watchValidate: empty1,
-              textProcessor: identity,
-            );
-          },
+          onTap: PKFieldOnTap(fieldKey: fieldKey).call(editor, input),
         );
+      };
+
+  PFN<Mfw, VoidCallback?> get fieldOnTap => (editor, input) {
+        return () {
+          ValidatingTextField.showDialog(
+            ui: editor.ui,
+            title: fieldTitle(editor, input),
+            initialValue: get(input.read()),
+            onSubmit: setFwFor(input),
+            watchValidate: empty1,
+            textProcessor: identity,
+          );
+        };
       };
 
   PFN<PICollectionItem, FutureOr<void>> get collectionItemEditor =>

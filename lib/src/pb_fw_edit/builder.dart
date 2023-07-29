@@ -58,6 +58,101 @@ class PfeConfigurator<M> {
   });
 }
 
+extension PfeRepeatedFieldConfiguratorX<M extends GeneratedMessage,
+    V extends Object> on PfeConfigurator<RepeatedFieldAccess<M, V>> {
+  void collectionItemTitle(
+    Widget Function(
+      Pfe editor,
+      ({
+        Fw<M> mfw,
+        Fw<V> itemFw,
+      }) input,
+    ) fn,
+  ) {
+    builder.set(
+      PKCollectionItemTitle(fieldKey: marker.fieldKey),
+      (editor, input) {
+        return fn(
+          editor,
+          (
+            mfw: input.mfw as Fw<M>,
+            itemFw: input.itemFw as Fw<V>,
+          ),
+        );
+      },
+    );
+  }
+
+  void collectionItemSubtitle(
+    Widget? Function(
+      Pfe editor,
+      ({
+        Fw<M> mfw,
+        Fw<V> itemFw,
+      }) input,
+    ) fn,
+  ) {
+    builder.set(
+      PKCollectionItemSubtitle(fieldKey: marker.fieldKey),
+      (editor, input) {
+        return fn(
+          editor,
+          (
+            mfw: input.mfw as Fw<M>,
+            itemFw: input.itemFw as Fw<V>,
+          ),
+        );
+      },
+    );
+  }
+
+  void createCollectionItem(
+    Future<V?> Function(
+      Pfe editor,
+      ({
+        Fw<M> mfw,
+        Fw<V> Function(V object) addToCollection,
+      }) input,
+    ) fn,
+  ) {
+    builder.set(
+      PKCreateCollectionItem(fieldKey: marker.fieldKey),
+      (editor, input) async {
+        return await fn(
+          editor,
+          (
+            mfw: input.mfw as Fw<M>,
+            addToCollection: (object) => input.addToCollection(object) as Fw<V>,
+          ),
+        );
+      },
+    );
+  }
+
+  void sortCollectionItems(
+    Iterable<PbEntry<V>> Function(
+      Pfe editor,
+      ({
+        Fw<M> mfw,
+        Iterable<PbEntry<V>> items,
+      }) input,
+    ) fn,
+  ) {
+    builder.set(
+      PKSortCollectionItems(fieldKey: marker.fieldKey),
+      (editor, input) {
+        return fn(
+          editor,
+          (
+            mfw: input.mfw as Fw<M>,
+            items: input.items.cast(),
+          ),
+        );
+      },
+    );
+  }
+}
+
 extension PfeMapFieldConfiguratorX<M extends GeneratedMessage, K, V>
     on PfeConfigurator<MapFieldAccess<M, K, V>> {
   void fieldEditor(PFN<MapFu<K, V>, Widget> pfn) {
@@ -88,12 +183,27 @@ extension PfeScalarFieldConfiguratorX<M extends GeneratedMessage, F>
       PKFieldEditor(fieldKey: marker.fieldKey),
       (editor, input) {
         return flcDsp((disposers) {
-          final itemFw = marker.fieldFw(
+          final itemFw = marker.fieldFwHot(
             input as Fw<M>,
             disposers: disposers,
           );
           return pfn(editor, itemFw);
         });
+      },
+    );
+  }
+
+  void fieldOnTap(PFN<Fw<F>, VoidCallback?> pfn) {
+    builder.set(
+      PKFieldOnTap(fieldKey: marker.fieldKey),
+      (editor, input) {
+        final itemFw = marker.fieldFw(
+          input as Fw<M>,
+        );
+        return pfn(
+          editor,
+          itemFw,
+        );
       },
     );
   }

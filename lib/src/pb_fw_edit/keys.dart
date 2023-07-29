@@ -66,6 +66,11 @@ sealed class PfeKey with _$PfeKey {
     required FieldKey fieldKey,
   }) = PKFieldTitle;
 
+  @Implements.fromString("PKIO<Mfw, VoidCallback?>")
+  const factory PfeKey.fieldOnTap({
+    required ConcreteFieldKey fieldKey,
+  }) = PKFieldOnTap;
+
   @Implements.fromString("PKIO<PICollectionItem, Widget>")
   const factory PfeKey.collectionItemTitle({
     required ConcreteFieldKey fieldKey,

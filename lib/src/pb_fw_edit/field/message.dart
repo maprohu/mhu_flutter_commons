@@ -6,7 +6,7 @@ extension _MessageFieldAccessX on MessageFieldAccess {
       return flcDsp(
         (disposers) {
           final fld = withScalarGenerics<Fw>(
-            <M extends GeneratedMessage, F>(access) => access.fieldFw(
+            <M extends GeneratedMessage, F>(access) => access.fieldFwHot(
               input as Fw<M>,
               disposers: disposers,
             ),
