@@ -49,7 +49,12 @@ Widget flcDsp(Widget Function(DspReg disposers) builder) =>
 Widget flcFrr(Widget Function() builder) {
   return flcDsp(
     (disposers) {
-      final widgetFr = disposers.fr<Widget>(builder);
+      final widgetFr = disposers.fr<Widget>(
+        () {
+          final widget = builder();
+          return widget.withKey(widget);
+        },
+      );
       return flcStreamWidget(
         waiting: widgetFr.read(),
         stream: widgetFr.changes(),
