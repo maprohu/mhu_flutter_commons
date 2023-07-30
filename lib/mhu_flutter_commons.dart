@@ -27,3 +27,4 @@ export 'src/pb_fw_edit/proto_edit_frp.dart';
 export 'src/ticker.dart';
 export 'src/safe_area.dart';
 export 'src/model_editor.dart';
+export 'src/stream.dart';
