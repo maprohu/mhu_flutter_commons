@@ -85,3 +85,9 @@ class StretchWidget extends StatelessWidget {
     );
   }
 }
+
+mixin HasSize {
+  Size get size;
+  double get width => size.width;
+  double get height => size.height;
+}
