@@ -55,9 +55,7 @@ class ScreenSizeObserver with WidgetsBindingObserver {
   static Stream<Size> stream(DspReg disposers) {
     final controller = StreamController<Size>();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      controller.add(getScreenSize());
-    });
+    controller.add(getScreenSize());
 
     final observer = ScreenSizeObserver(controller.add);
     WidgetsBinding.instance.addObserver(observer);
