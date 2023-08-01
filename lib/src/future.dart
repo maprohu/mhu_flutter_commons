@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:mhu_flutter_commons/mhu_flutter_commons.dart';
 
-final _logger = Logger();
+final _logger = Logger(
+  printer: PrettyPrinter(
+    errorMethodCount: 20,
+  ),
+);
 
 typedef SnapshotErrorHandler = Widget
     Function(BuildContext context, Object error, [StackTrace? stackTrace]);
