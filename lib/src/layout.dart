@@ -91,3 +91,7 @@ mixin HasSize {
   double get width => size.width;
   double get height => size.height;
 }
+
+extension CommonSizeX on Size {
+  Size withHeight(double height) => Size(width, height);
+}
