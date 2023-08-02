@@ -96,9 +96,24 @@ mixin HasSize {
 
 extension CommonSizeX on Size {
   Size withHeight(double height) => Size(width, height);
+  Size withWidth(double width) => Size(width, height);
 
   Offset minus(Size other) => Offset(
         width - other.width,
         height - other.height,
       );
+}
+
+bool sizeRoughlyEqual(Size a, Size b) {
+  return doubleEqualWithin3Decimals(a.width, b.width) &&
+      doubleEqualWithin3Decimals(a.height, b.height);
+}
+
+bool assertSizeRoughlyEqual(Size a, Size b) {
+  assert(sizeRoughlyEqual(a, b), (a, b));
+  return true;
+}
+
+extension SizeAssertX on Size {
+  bool assertEqual(Size other) => assertSizeRoughlyEqual(this, other);
 }
