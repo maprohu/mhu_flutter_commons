@@ -88,10 +88,17 @@ class StretchWidget extends StatelessWidget {
 
 mixin HasSize {
   Size get size;
+
   double get width => size.width;
+
   double get height => size.height;
 }
 
 extension CommonSizeX on Size {
   Size withHeight(double height) => Size(width, height);
+
+  Offset minus(Size other) => Offset(
+        width - other.width,
+        height - other.height,
+      );
 }
