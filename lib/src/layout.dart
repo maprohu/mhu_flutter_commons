@@ -110,7 +110,7 @@ bool sizeRoughlyEqual(Size a, Size b) {
 }
 
 bool assertSizeRoughlyEqual(Size a, Size b) {
-  assert(sizeRoughlyEqual(a, b), (a, b));
+  assert(sizeRoughlyEqual(a, b), (a, b).toString());
   return true;
 }
 
