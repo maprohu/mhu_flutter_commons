@@ -8,7 +8,6 @@ extension PFNX<I, O> on PFN<I, O> {
 
 abstract interface class PKIO<I, O> {}
 
-typedef Mfw = Fw<GeneratedMessage>;
 
 typedef PICreateCollectionItem = ({
   Mfw mfw,

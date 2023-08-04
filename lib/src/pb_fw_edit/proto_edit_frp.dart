@@ -52,6 +52,7 @@ part 'field/repeated.dart';
 part 'field/map.dart';
 
 
+
 abstract interface class ProtoFwEditor {
   Widget messageEditor<M extends GeneratedMessage>(
     Fw<M> message,
