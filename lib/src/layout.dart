@@ -92,18 +92,36 @@ abstract class HasSize {
 
 extension HasSizeX on HasSize {
   double get width => size.width;
+
   double get height => size.height;
 }
 
-
 extension CommonSizeX on Size {
   Size withHeight(double height) => Size(width, height);
+
   Size withWidth(double width) => Size(width, height);
 
   Offset minus(Size other) => Offset(
         width - other.width,
         height - other.height,
       );
+
+  Size withAxisDimension({
+    required Axis axis,
+    required double dimension,
+  }) {
+    return switch (axis) {
+      Axis.horizontal => withWidth(dimension),
+      Axis.vertical => withHeight(dimension),
+    };
+  }
+
+  bool assertEqual(Size other) => assertSizeRoughlyEqual(this, other);
+
+  double axis(Axis axis) => switch (axis) {
+        Axis.horizontal => width,
+        Axis.vertical => height,
+      };
 }
 
 bool sizeRoughlyEqual(Size a, Size b) {
@@ -116,6 +134,6 @@ bool assertSizeRoughlyEqual(Size a, Size b) {
   return true;
 }
 
-extension SizeAssertX on Size {
-  bool assertEqual(Size other) => assertSizeRoughlyEqual(this, other);
+extension MhuLayouAxisX on Axis {
+  Axis get flip => flipAxis(this);
 }
