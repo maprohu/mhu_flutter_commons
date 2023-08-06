@@ -16,7 +16,7 @@ extension _MapFieldAccessX on MapFieldAccess {
                 final cachedFu = withMapGenerics<CachedFu>(
                   <M extends GeneratedMessage, K, V>(access) =>
                       CachedFu.map<V, K, Fw<V>>(
-                    fv: access.fu(
+                    fv: access.fuHot(
                       input as Fw<M>,
                       disposers: disposers,
                     ),

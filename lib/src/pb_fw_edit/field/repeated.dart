@@ -16,7 +16,7 @@ extension _RepeatedFieldAccessX on RepeatedFieldAccess {
                   final cachedFu = withListGenerics<CachedFu>(
                     <M extends GeneratedMessage, V>(access) =>
                         CachedFu.list<V, Fw<V>>(
-                      fv: access.fu(
+                      fv: access.fuHot(
                         input as Fw<M>,
                         disposers: disposers,
                       ),

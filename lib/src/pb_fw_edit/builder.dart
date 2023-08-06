@@ -161,7 +161,7 @@ extension PfeMapFieldConfiguratorX<M extends GeneratedMessage, K, V>
       (editor, input) {
         return flcDsp((disposers) {
           final mapFu = CachedFu.map(
-            fv: marker.fu(
+            fv: marker.fuHot(
               input as Fw<M>,
               disposers: disposers,
             ),
