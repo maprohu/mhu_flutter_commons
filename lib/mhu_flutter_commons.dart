@@ -28,3 +28,4 @@ export 'src/ticker.dart';
 export 'src/safe_area.dart';
 export 'src/model_editor.dart';
 export 'src/stream.dart';
+export 'src/clipboard.dart';
