@@ -34,7 +34,7 @@ AsyncWidgetBuilder<T> snapshotBuilder<T>({
       }
     };
 
-Widget futureBuilderNull<T>({
+Widget futureBuilderNull<T extends Object>({
   required Future<T> future,
   required Widget Function(BuildContext context, T value) builder,
   SnapshotErrorHandler error = snapshotDefaultError,
@@ -46,7 +46,7 @@ Widget futureBuilderNull<T>({
       busy: (context) => nullWidget,
     );
 
-Widget futureBuilder<T>({
+Widget futureBuilder<T extends Object>({
   required Future<T> future,
   required Widget Function(BuildContext context, T value) builder,
   Widget Function(BuildContext context) busy = snapshotDefaultBusy,
