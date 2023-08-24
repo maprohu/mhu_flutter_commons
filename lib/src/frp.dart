@@ -74,8 +74,8 @@ Widget flcStreamWidget<T>({
       if (snapshot.hasError) {
         _logger.e(
           snapshot.error,
-          snapshot.error,
-          snapshot.stackTrace,
+          error: snapshot.error,
+          stackTrace: snapshot.stackTrace,
         );
         return ErrorWidget(snapshot.error!);
       } else {

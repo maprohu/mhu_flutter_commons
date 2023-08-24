@@ -30,3 +30,4 @@ export 'src/model_editor.dart';
 export 'src/stream.dart';
 export 'src/clipboard.dart';
 export 'src/animate.dart';
+export 'src/has.dart';

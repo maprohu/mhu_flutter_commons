@@ -1,7 +1,16 @@
 import 'dart:async';
+import 'dart:math';
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mhu_dart_annotation/mhu_dart_annotation.dart';
 import 'package:mhu_dart_commons/commons.dart';
+
+import 'has.dart';
+import 'layout.dart' as $lib;
+
+// part 'layout.g.has.dart';
+part 'layout.g.dart';
 
 const paddingSize = 4.0;
 const padding = EdgeInsets.all(paddingSize);
@@ -86,9 +95,9 @@ class StretchWidget extends StatelessWidget {
   }
 }
 
-abstract class HasSize {
-  Size get size;
-}
+// abstract class HasSize {
+//   Size get size;
+// }
 
 extension HasSizeX on HasSize {
   double get width => size.width;
@@ -105,16 +114,6 @@ extension CommonSizeX on Size {
         width - other.width,
         height - other.height,
       );
-
-  Size withAxisDimension({
-    required Axis axis,
-    required double dimension,
-  }) {
-    return switch (axis) {
-      Axis.horizontal => withWidth(dimension),
-      Axis.vertical => withHeight(dimension),
-    };
-  }
 
   bool assertEqual(Size other) => assertSizeRoughlyEqual(this, other);
 
@@ -136,4 +135,126 @@ bool assertSizeRoughlyEqual(Size a, Size b) {
 
 extension MhuLayouAxisX on Axis {
   Axis get flip => flipAxis(this);
+}
+
+bool sizeIsNegative({
+  @extHas required Size size,
+}) {
+  return size.width.isNegative || size.height.isNegative;
+}
+
+Size sizeNonNegative({
+  @extHas required Size size,
+}) {
+  if (size.sizeIsNegative()) {
+    return Size(
+      max(0, size.width),
+      max(0, size.height),
+    );
+  } else {
+    return size;
+  }
+}
+
+double sizeAxisDimension({
+  @extHas required Size size,
+  @extHas required Axis axis,
+}) {
+  return size.axis(axis);
+}
+
+double totalHasSizeAxis({
+  @Ext() required Iterable<HasSize> sizes,
+  @extHas required Axis axis,
+}) {
+  return sizes.sumByDouble(
+    (e) => e.sizeAxisDimension(
+      axis: axis,
+    ),
+  );
+}
+
+double totalSizeAxis({
+  @Ext() required Iterable<Size> sizes,
+  @extHas required Axis axis,
+}) {
+  return sizes.sumByDouble(
+    (e) => e.sizeAxisDimension(
+      axis: axis,
+    ),
+  );
+}
+
+double? axisWidth({
+  required Axis axis,
+  required double dimension,
+}) {
+  return switch (axis) {
+    Axis.horizontal => dimension,
+    Axis.vertical => null,
+  };
+}
+
+double? axisHeight({
+  required Axis axis,
+  required double dimension,
+}) {
+  return switch (axis) {
+    Axis.vertical => dimension,
+    Axis.horizontal => null,
+  };
+}
+
+SizedBox sizedBoxAxis({
+  @extHas required Widget child,
+  @extHas required Axis axis,
+  required double dimension,
+}) {
+  return switch (axis) {
+    Axis.horizontal => SizedBox(
+        width: dimension,
+        child: child,
+      ),
+    Axis.vertical => SizedBox(
+        height: dimension,
+        child: child,
+      ),
+  };
+}
+
+Size sizeWithAxisDimension({
+  @extHas required Size size,
+  @extHas required Axis axis,
+  required double dimension,
+}) {
+  return switch (axis) {
+    Axis.horizontal => size.withWidth(dimension),
+    Axis.vertical => size.withHeight(dimension),
+  };
+}
+
+Size sizeWithHeight({
+  @extHas required Size size,
+  required double height,
+}) {
+  return Size(
+    size.width,
+    height,
+  );
+}
+
+Size sizeWithWidth({
+  @extHas required Size size,
+  required double width,
+}) {
+  return Size(
+    width,
+    size.height,
+  );
+}
+
+double sizeWidth({
+  @extHas required Size size,
+}) {
+  return size.width;
 }

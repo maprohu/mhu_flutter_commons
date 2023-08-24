@@ -15,7 +15,11 @@ Widget snapshotDefaultBusy(BuildContext context) => busyWidget;
 
 Widget snapshotDefaultError(BuildContext context, Object error,
     [StackTrace? stackTrace]) {
-  _logger.e(error, error, stackTrace);
+  _logger.e(
+    error,
+    error: error,
+    stackTrace: stackTrace,
+  );
   return ErrorWidget(error);
 }
 
