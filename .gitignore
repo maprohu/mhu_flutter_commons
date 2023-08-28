@@ -20,4 +20,5 @@ pubspec.lock
 *.iml
 *.freezed.dart
 *.g.dart
+*.g.*.dart
 
