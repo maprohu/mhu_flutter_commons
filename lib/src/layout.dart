@@ -253,6 +253,12 @@ Size sizeWithWidth({
   );
 }
 
+double sizeHeight({
+  @extHas required Size size,
+}) {
+  return size.height;
+}
+
 double sizeWidth({
   @extHas required Size size,
 }) {
