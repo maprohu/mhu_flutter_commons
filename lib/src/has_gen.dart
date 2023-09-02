@@ -16,3 +16,6 @@ typedef Axis = flutter.Axis;
 
 @Has()
 typedef Widget = flutter.Widget;
+
+@Has()
+typedef EdgeInsets = flutter.EdgeInsets;

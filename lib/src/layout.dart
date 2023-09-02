@@ -12,11 +12,11 @@ import 'layout.dart' as $lib;
 // part 'layout.g.has.dart';
 part 'layout.g.dart';
 
-const paddingSize = 4.0;
-const padding = EdgeInsets.all(paddingSize);
+const flcDefaultPaddingSize = 4.0;
+const flcDefaultPadding = EdgeInsets.all(flcDefaultPaddingSize);
 
 extension LayoutWidgetX on Widget {
-  Widget withPadding([double value = paddingSize]) => Padding(
+  Widget withPadding([double value = flcDefaultPaddingSize]) => Padding(
         padding: EdgeInsets.all(value),
         child: this,
       );
@@ -37,7 +37,7 @@ extension LayoutWidgetX on Widget {
 }
 
 extension LayoutIterableWidgetX on Iterable<Widget> {
-  List<Widget> withPadding([double padding = paddingSize]) =>
+  List<Widget> withPadding([double padding = flcDefaultPaddingSize]) =>
       map((e) => e.withPadding(padding)).toList();
 
   List<Widget> withPaddingOf(double size) =>
