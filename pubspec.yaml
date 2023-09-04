@@ -9,8 +9,10 @@ environment:
 dependency_overrides:
   mhu_dart_commons:
     path: ../mhu_dart_commons
-  mhu_dart_proto:
-    path: ../mhu_dart_proto
+#  mhu_dart_proto:
+#    path: ../mhu_dart_proto
+  mhu_dart_pbschema:
+    path: ../mhu_dart_pbschema
   mhu_dart_model:
     path: ../mhu_dart_model
   mhu_dart_builder:
@@ -40,7 +42,7 @@ dependencies:
 
   mhu_dart_annotation: ^1.0.1
   mhu_dart_commons: ^1.0.8
-  mhu_dart_proto: ^1.0.2
+#  mhu_dart_proto: ^1.0.2
   mhu_dart_model: ^1.0.2
 
 dev_dependencies:
