@@ -46,6 +46,7 @@ Widget flcDisposeWidget({
 Widget flcDsp(Widget Function(DspReg disposers) builder) =>
     flcDisposeWidget(builder: builder);
 
+@Deprecated("use watchWidget")
 Widget flcFrr(Widget Function() builder) {
   return flcDsp(
     (disposers) {

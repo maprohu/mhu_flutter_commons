@@ -31,3 +31,4 @@ export 'src/stream.dart';
 export 'src/clipboard.dart';
 export 'src/animate.dart';
 export 'src/has.dart';
+export 'src/watch.dart';
