@@ -9,11 +9,15 @@ import 'package:mhu_dart_commons/commons.dart';
 import 'has.dart';
 import 'layout.dart' as $lib;
 
-// part 'layout.g.has.dart';
+part 'layout.g.has.dart';
+
 part 'layout.g.dart';
 
 const flcDefaultPaddingSize = 4.0;
 const flcDefaultPadding = EdgeInsets.all(flcDefaultPaddingSize);
+
+@Has()
+typedef Dimension = double;
 
 extension LayoutWidgetX on Widget {
   Widget withPadding([double value = flcDefaultPaddingSize]) => Padding(
@@ -100,8 +104,10 @@ class StretchWidget extends StatelessWidget {
 // }
 
 extension HasSizeX on HasSize {
+  @Deprecated("Use sizeWidth()")
   double get width => size.width;
 
+  @Deprecated("Use sizeHeight()")
   double get height => size.height;
 }
 
@@ -117,6 +123,7 @@ extension CommonSizeX on Size {
 
   bool assertEqual(Size other) => assertSizeRoughlyEqual(this, other);
 
+  @Deprecated("use sizeAxisDimension()")
   double axis(Axis axis) => switch (axis) {
         Axis.horizontal => width,
         Axis.vertical => height,
@@ -264,3 +271,85 @@ double sizeWidth({
 }) {
   return size.width;
 }
+
+@Compose()
+abstract class OrientedBox implements HasSize, HasAxis {}
+
+Axis crossAxis({
+  @extHas required Axis axis,
+}) {
+  return axis.flip;
+}
+
+Dimension orientedMainDimension({
+  @ext required OrientedBox orientedBox,
+}) {
+  return sizeAxisDimension(
+    size: orientedBox.size,
+    axis: orientedBox.axis,
+  );
+}
+Dimension orientedCrossDimension({
+  @ext required OrientedBox orientedBox,
+}) {
+  return sizeAxisDimension(
+    size: orientedBox.size,
+    axis: orientedBox.crossAxis(),
+  );
+}
+
+OrientedBox orientedBoxWithSize({
+  @extHas required Axis axis,
+  @extHas required Size size,
+}) {
+  return ComposedOrientedBox(
+    size: size,
+    axis: axis,
+  );
+}
+
+OrientedBox orientedBoxWithMainDimension({
+  @ext required OrientedBox orientedBox,
+  required Dimension dimension,
+}) {
+  return ComposedOrientedBox(
+    axis: orientedBox.axis,
+    size: orientedBox.size.sizeWithAxisDimension(
+      axis: orientedBox.axis,
+      dimension: dimension,
+    ),
+  );
+}
+
+OrientedBox orientedBoxWithCrossDimension({
+  @ext required OrientedBox orientedBox,
+  required Dimension dimension,
+}) {
+  return ComposedOrientedBox(
+    axis: orientedBox.axis,
+    size: orientedBox.size.sizeWithAxisDimension(
+      axis: orientedBox.crossAxis(),
+      dimension: dimension,
+    ),
+  );
+}
+
+Dimension edgeInsetsAxisDimension({
+  @extHas required EdgeInsets edgeInsets,
+  @extHas required Axis axis,
+}) {
+  return edgeInsets.collapsedSize.sizeAxisDimension(axis: axis);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

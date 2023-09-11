@@ -8,4 +8,7 @@ library;
 import 'package:flutter/widgets.dart';
 import 'package:mhu_dart_annotation/mhu_dart_annotation.dart';
 
+import 'layout.dart';
+
 part 'has.g.has.dart';
+
