@@ -13,6 +13,8 @@ part 'layout.g.has.dart';
 
 part 'layout.g.dart';
 
+part 'layout/assert.dart';
+
 const flcDefaultPaddingSize = 4.0;
 const flcDefaultPadding = EdgeInsets.all(flcDefaultPaddingSize);
 
